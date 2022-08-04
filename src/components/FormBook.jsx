@@ -21,12 +21,12 @@ export function FormBook() {
   };
 
   const fetchEstados = () => {
-    fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados/?orderBy=nome')
+    fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome')
       .then(response => response.json())
       .then(data => setEstados(data));
   };
 
-  const estadoChange = event => fetchCidades(event.currentTarget.value);
+  const estadoChange = element => fetchCidades(element.currentTarget.value);
 
   const fetchCidades = uf => {
     fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`)
