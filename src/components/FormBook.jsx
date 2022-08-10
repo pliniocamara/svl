@@ -23,20 +23,16 @@ export function FormBook() {
   const fetchEstados = () => {
     fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome')
       .then(response => response.json())
-      .then(data => setEstados(data));
+      .then(data => setEstados(data.map((estado, index) => <option key={index} value={estado.sigla}>{estado.nome}</option>)));
   };
-
-  const estadoChange = element => fetchCidades(element.currentTarget.value);
 
   const fetchCidades = uf => {
     fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`)
       .then(response => response.json())
-      .then(data => {
-        const cidades = [];
-        data.map((cidade, index) => cidades.push(<option key={index} value={cidade.nome}>{cidade.nome}</option>));
-        setCidades(cidades);
-      });
+      .then(data => setCidades(data.map((cidade, index) => <option key={index} value={cidade.nome}>{cidade.nome}</option>)));
   };
+
+  const estadoChange = element => fetchCidades(element.currentTarget.value);
 
   useEffect(() => {
     fetchEstados();
@@ -69,7 +65,7 @@ export function FormBook() {
         <Form.Label>Estado</Form.Label>
         <Form.Select onChange={estadoChange}>
           <option>Selecione ...</option>
-          {estados.map((estado, index) => <option key={index} value={estado.sigla}>{estado.nome}</option>)}
+          {estados}
         </Form.Select>
       </Form.Group>
       <Form.Group as={Col} md="4">
