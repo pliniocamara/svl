@@ -1,40 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 
 export default function BookTable() {
 
-    const [users, setUsers] = useState([]);
+    const [comments, setComments] = useState([]);
 
     const columns = [{
         dataField: 'id',
-        text: 'ID do Usuário'
+        text: '#'
     }, {
         dataField: 'name',
-        text: 'Nome do Usuário'
+        text: 'Título'
     }, {
-        dataField: 'username',
-        text: 'Login do Usuário'
+        dataField: 'email',
+        text: 'E-mail do Usuário'
+    }, {
+        dataField: 'body',
+        text: 'Comentário'
     }];
 
-    const fetchUsers = () => {
-        fetch('https://jsonplaceholder.typicode.com/users')
+    const getComments = () => {
+        fetch('https://jsonplaceholder.typicode.com/comments')
             .then(response => response.json())
-            .then(data => data.map(user => {
-                const usersObject = {
-                    id: user.id,
-                    name: user.name,
-                    username: user.username
-                };
-                return usersObject;
-            }))
-            .then(usersObject => setUsers(usersObject));
-    }
+            .then(data => setComments(data));
+    };
 
     useEffect(() => {
-        fetchUsers();
-      }, []);
+        getComments();
+    }, []);
 
   return (
-    <BootstrapTable keyField='id' data={ users } columns={ columns } />
+    <BootstrapTable keyField='id' data={ comments } columns={ columns } pagination={ paginationFactory() } />
   )
 }

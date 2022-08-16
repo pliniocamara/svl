@@ -8,14 +8,12 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-
       <div className='container mt-4'>
         <FormBook />
       </div>
       <div className='container mt-4'>
         <BookTable />
       </div>
-      
     </div>
   );
 }
